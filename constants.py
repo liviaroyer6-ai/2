@@ -2,9 +2,12 @@ import os
 import pygame
 
 # Paths
-# constants.py
-ASSET_DIR = r"Y:\alles bevor löschen\progaming\selbst_visual_sudio_code\sachen_für_aha_game"
-USER_FILE = os.path.join(ASSET_DIR, "users.json")
+# Updated constants.py for new local folders
+ASSET_ROOT = r"D:\programing\oldgametonewwithperpel\sachenthaitneeds"
+IMAGE_DIR = os.path.join(ASSET_ROOT, "bilder")
+SOUND_DIR = os.path.join(ASSET_ROOT, "sound")
+
+USER_FILE = os.path.join(ASSET_ROOT, "users.json")
 
 # Screen dimensions
 UI_WIDTH, UI_HEIGHT = 800, 600
@@ -19,7 +22,7 @@ GREEN = (0, 200, 0)
 RED = (200, 0, 0)
 PINK = (255, 192, 203)
 YELLOW = (255, 255, 0)
-BLUE = (0, 100, 255)  # Add BLUE color
+BLUE = (0, 100, 255)
 
 # Initialize Pygame
 pygame.init()
@@ -30,7 +33,7 @@ screen_width, screen_height = screen_info.current_w, screen_info.current_h
 # Font
 FONT = pygame.font.SysFont(None, 40)
 
-# Level definitions
+# Level definitions (image filenames live in IMAGE_DIR)
 LEVELS = [
     {"bg": "ahabild1.png", "speed": 3, "count": 3, "threshold": 10},
     {"bg": "ahabild2.png", "speed": 5, "count": 5, "threshold": 30},
@@ -57,11 +60,11 @@ LEVELS = [
     {"bg": "ahabild23.png", "speed": 14, "count": 14, "threshold": 120},
 ]
 
-# Charaktere - direkte Pfade ohne assets/characters/
+# Character sprites (image filenames live in IMAGE_DIR)
 CHAR_SPRITES = [
     "butterfly.png",
     "dino.png",
-    "demon.png"
+    "demon.png",
 ]
 
 # Buttons
@@ -70,4 +73,4 @@ resume_button = pygame.Rect(GAME_W // 2 - 100, GAME_H // 2, 200, 50)
 restart_button = pygame.Rect(GAME_W // 2 - 100, GAME_H // 2 + 10, 200, 50)
 quit_button = pygame.Rect(GAME_W // 2 - 100, GAME_H // 2 + 80, 200, 50)
 try_again_button = pygame.Rect(GAME_W // 2 - 100, GAME_H // 2 - 80, 200, 50)
-menu_button = pygame.Rect(GAME_W // 2 - 100, GAME_H // 2 + 150, 200, 50)  # New menu button position
+menu_button = pygame.Rect(GAME_W // 2 - 100, GAME_H // 2 + 150, 200, 50)
