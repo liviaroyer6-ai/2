@@ -1,63 +1,73 @@
-"""Game constants and configuration.
+import os
+import pygame
 
-This module contains all game-wide constants, settings, and configuration values.
-"""
+# Paths
+# constants.py
+ASSET_DIR = r"Y:\alles bevor löschen\progaming\selbst_visual_sudio_code\sachen_für_aha_game"
+USER_FILE = os.path.join(ASSET_DIR, "users.json")
 
-from typing import Final
+# Screen dimensions
+UI_WIDTH, UI_HEIGHT = 800, 600
+GAME_W, GAME_H = 1600, 1000
 
-# =============================================================================
-# SCREEN SETTINGS
-# =============================================================================
+# Colors
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
+GRAY = (200, 200, 200)
+DARK_GRAY = (150, 150, 150)
+GREEN = (0, 200, 0)
+RED = (200, 0, 0)
+PINK = (255, 192, 203)
+YELLOW = (255, 255, 0)
+BLUE = (0, 100, 255)  # Add BLUE color
 
-SCREEN_WIDTH: Final[int] = 800
-SCREEN_HEIGHT: Final[int] = 600
-FPS: Final[int] = 60
-TITLE: Final[str] = "Psychic Fortnight"
+# Initialize Pygame
+pygame.init()
+pygame.mixer.init()
+screen_info = pygame.display.Info()
+screen_width, screen_height = screen_info.current_w, screen_info.current_h
 
-# =============================================================================
-# COLORS (RGB format)
-# =============================================================================
+# Font
+FONT = pygame.font.SysFont(None, 40)
 
-WHITE: Final[tuple[int, int, int]] = (255, 255, 255)
-BLACK: Final[tuple[int, int, int]] = (0, 0, 0)
-RED: Final[tuple[int, int, int]] = (255, 0, 0)
-GREEN: Final[tuple[int, int, int]] = (0, 255, 0)
-BLUE: Final[tuple[int, int, int]] = (0, 0, 255)
-GRAY: Final[tuple[int, int, int]] = (128, 128, 128)
-DARK_GRAY: Final[tuple[int, int, int]] = (64, 64, 64)
-YELLOW: Final[tuple[int, int, int]] = (255, 255, 0)
+# Level definitions
+LEVELS = [
+    {"bg": "ahabild1.png", "speed": 3, "count": 3, "threshold": 10},
+    {"bg": "ahabild2.png", "speed": 5, "count": 5, "threshold": 30},
+    {"bg": "ahabild3.png", "speed": 7, "count": 7, "threshold": 45},
+    {"bg": "ahabild4.png", "speed": 4, "count": 4, "threshold": 20},
+    {"bg": "ahabild5.png", "speed": 4, "count": 6, "threshold": 25},
+    {"bg": "ahabild6.png", "speed": 5, "count": 5, "threshold": 35},
+    {"bg": "ahabild7.png", "speed": 6, "count": 6, "threshold": 40},
+    {"bg": "ahabild8.png", "speed": 6, "count": 7, "threshold": 45},
+    {"bg": "ahabild9.png", "speed": 7, "count": 7, "threshold": 50},
+    {"bg": "ahabild10.png", "speed": 7, "count": 8, "threshold": 55},
+    {"bg": "ahabild11.png", "speed": 8, "count": 8, "threshold": 60},
+    {"bg": "ahabild12.png", "speed": 8, "count": 9, "threshold": 65},
+    {"bg": "ahabild13.png", "speed": 9, "count": 9, "threshold": 70},
+    {"bg": "ahabild14.png", "speed": 9, "count": 10, "threshold": 75},
+    {"bg": "ahabild15.png", "speed": 10, "count": 10, "threshold": 80},
+    {"bg": "ahabild16.png", "speed": 10, "count": 11, "threshold": 85},
+    {"bg": "ahabild17.png", "speed": 11, "count": 11, "threshold": 90},
+    {"bg": "ahabild18.png", "speed": 11, "count": 12, "threshold": 95},
+    {"bg": "ahabild19.png", "speed": 12, "count": 12, "threshold": 100},
+    {"bg": "ahabild20.png", "speed": 12, "count": 13, "threshold": 105},
+    {"bg": "ahabild21.png", "speed": 13, "count": 13, "threshold": 110},
+    {"bg": "ahabild22.png", "speed": 13, "count": 14, "threshold": 115},
+    {"bg": "ahabild23.png", "speed": 14, "count": 14, "threshold": 120},
+]
 
-# =============================================================================
-# GAME SETTINGS
-# =============================================================================
+# Charaktere - direkte Pfade ohne assets/characters/
+CHAR_SPRITES = [
+    "butterfly.png",
+    "dino.png",
+    "demon.png"
+]
 
-PLAYER_SPEED: Final[float] = 5.0
-PLAYER_SIZE: Final[int] = 32
-GRAVITY: Final[float] = 0.5
-JUMP_STRENGTH: Final[float] = -10.0
-
-# =============================================================================
-# UI SETTINGS
-# =============================================================================
-
-FONT_SIZE: Final[int] = 24
-BUTTON_WIDTH: Final[int] = 200
-BUTTON_HEIGHT: Final[int] = 50
-
-# =============================================================================
-# GAME STATES
-# =============================================================================
-
-STATE_MENU: Final[str] = "menu"
-STATE_PLAYING: Final[str] = "playing"
-STATE_PAUSED: Final[str] = "paused"
-STATE_GAME_OVER: Final[str] = "game_over"
-
-# =============================================================================
-# DIRECTIONS
-# =============================================================================
-
-DIRECTION_UP: Final[tuple[int, int]] = (0, -1)
-DIRECTION_DOWN: Final[tuple[int, int]] = (0, 1)
-DIRECTION_LEFT: Final[tuple[int, int]] = (-1, 0)
-DIRECTION_RIGHT: Final[tuple[int, int]] = (1, 0)
+# Buttons
+pause_button = pygame.Rect(GAME_W - 110, 10, 100, 40)
+resume_button = pygame.Rect(GAME_W // 2 - 100, GAME_H // 2, 200, 50)
+restart_button = pygame.Rect(GAME_W // 2 - 100, GAME_H // 2 + 10, 200, 50)
+quit_button = pygame.Rect(GAME_W // 2 - 100, GAME_H // 2 + 80, 200, 50)
+try_again_button = pygame.Rect(GAME_W // 2 - 100, GAME_H // 2 - 80, 200, 50)
+menu_button = pygame.Rect(GAME_W // 2 - 100, GAME_H // 2 + 150, 200, 50)  # New menu button position
