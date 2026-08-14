@@ -13,6 +13,11 @@ USER_FILE = os.path.join(ASSET_ROOT, "users.json")
 UI_WIDTH, UI_HEIGHT = 800, 600
 GAME_W, GAME_H = 1600, 1000
 
+# Aliases for game_objects and other modules
+SCREEN_WIDTH = GAME_W
+SCREEN_HEIGHT = GAME_H
+GRAVITY = 0.5  # base gravity used by Player physics
+
 # Colors
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
