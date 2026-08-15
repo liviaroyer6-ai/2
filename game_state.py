@@ -1,91 +1,58 @@
-"""Game state management.
+"""Simple global game state for user, progress and selected character.
 
-This module handles the game state machine and state transitions.
+This restores the original expectations of other modules like game_loop.py
+and level_management.py, which import `current_user`, `current_progress`,
+`get_selected_char` and `set_selected_char`.
 """
 
-from enum import Enum, auto
+from __future__ import annotations
+
 from typing import Any
 
+# Currently logged-in user name (or None if not logged in)
+current_user: str | None = None
 
-class GameState(Enum):
-    """Enumeration of possible game states."""
-    
-    MENU = auto()
-    PLAYING = auto()
-    PAUSED = auto()
-    GAME_OVER = auto()
-    LEVEL_COMPLETE = auto()
-    QUIT = auto()
+# Progress of the current user. Other modules treat this as a dict with
+# keys like "completed" (list of finished levels) and "last" (highest unlocked).
+current_progress: dict[str, Any] = {
+    "completed": [],
+    "last": 1,
+}
+
+# Selected character sprite (e.g. a pygame.Surface). We keep type loose here
+# to avoid importing pygame in this module.
+_selected_char: Any = None
 
 
-class StateManager:
-    """Manages game state transitions and state-specific data.
-    
-    This class provides a state machine for managing different game states
-    and their associated data.
+def set_current_user(username: str | None, progress: dict[str, Any] | None = None) -> None:
+    """Set the current user and optionally their progress.
+
+    Args:
+        username: New username or None to clear.
+        progress: Optional progress dict to replace current_progress.
     """
-    
-    def __init__(self) -> None:
-        """Initialize the state manager with default state."""
-        self._current_state: GameState = GameState.MENU
-        self._previous_state: GameState | None = None
-        self._state_data: dict[GameState, dict[str, Any]] = {}
-    
-    @property
-    def current(self) -> GameState:
-        """Get the current game state."""
-        return self._current_state
-    
-    @property
-    def previous(self) -> GameState | None:
-        """Get the previous game state."""
-        return self._previous_state
-    
-    def set(self, state: GameState, data: dict[str, Any] | None = None) -> None:
-        """Set the current game state.
-        
-        Args:
-            state: New game state to transition to.
-            data: Optional state-specific data to store.
-        """
-        if self._current_state != state:
-            self._previous_state = self._current_state
-            self._current_state = state
-            
-            if data is not None:
-                self._state_data[state] = data
-    
-    def get_data(self, state: GameState | None = None) -> dict[str, Any]:
-        """Get data associated with a game state.
-        
-        Args:
-            state: Game state to get data for. If None, uses current state.
-        
-        Returns:
-            Dictionary of state-specific data, or empty dict if none exists.
-        """
-        if state is None:
-            state = self._current_state
-        return self._state_data.get(state, {})
-    
-    def is_playing(self) -> bool:
-        """Check if the game is in playing state."""
-        return self._current_state == GameState.PLAYING
-    
-    def is_menu(self) -> bool:
-        """Check if the game is in menu state."""
-        return self._current_state == GameState.MENU
-    
-    def is_paused(self) -> bool:
-        """Check if the game is paused."""
-        return self._current_state == GameState.PAUSED
-    
-    def is_game_over(self) -> bool:
-        """Check if the game is in game over state."""
-        return self._current_state == GameState.GAME_OVER
-    
-    def reset(self) -> None:
-        """Reset the state manager to initial state."""
-        self._current_state = GameState.MENU
-        self._previous_state = None
-        self._state_data.clear()
+    global current_user, current_progress
+    current_user = username
+    if progress is not None:
+        current_progress = progress
+
+
+def get_current_user() -> str | None:
+    """Get the name of the current user."""
+    return current_user
+
+
+def get_current_progress() -> dict[str, Any]:
+    """Get the current user's progress dict."""
+    return current_progress
+
+
+def set_selected_char(char: Any) -> None:
+    """Store the currently selected character sprite/object."""
+    global _selected_char
+    _selected_char = char
+
+
+def get_selected_char() -> Any:
+    """Return the currently selected character sprite/object."""
+    return _selected_char
